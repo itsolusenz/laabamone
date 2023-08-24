@@ -37,7 +37,7 @@ export default function DemoContent() {
 
       const response = await fetch('https://www.laabamone.com/appoint_api.php?eventtype=clientlist&companyid=' + companyid);
       const json = await response.json();
-      console.log('restult', json);
+      console.log('restult', json[0].success);
       setClientdata(json);
 
     }
@@ -165,13 +165,17 @@ export default function DemoContent() {
       {Clientdata.length > '0' ?
 
         <>
+          {Clientdata[0].success != 'error' ?
 
-          <MUIDataTable
-            title={t('Clients')}
-            data={Clientdata}
-            columns={columns}
-            options={options}
-          />
+            <MUIDataTable
+              title={t('Clients')}
+              data={Clientdata}
+              columns={columns}
+              options={options}
+            />
+            :
+            <Box sx={{ padding: '40px' }}><Typography sx={{ textAlign: 'center' }}>No data to view...</Typography></Box>
+          }
         </>
         :
         <div>Loading...</div>

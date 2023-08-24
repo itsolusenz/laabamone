@@ -190,7 +190,7 @@ function DemoHeader(props) {
     },
   }));
   useEffect(() => {
-    alert(editid);
+    //alert(editid);
     if (editid != '' && editid != null && editid != undefined) {
       setOpenModal(true);
     }
@@ -251,25 +251,16 @@ function DemoHeader(props) {
           <Root
             header=
             {
-              <Box sx={{ width: '100%', borderBottom: '1px solid #bfc3c7', paddingBottom: '20px' }} marginTop={5} marginBottom={5} >
+              <Box sx={{ width: '100%', borderBottom: '1px solid #fff', paddingBottom: '0px' }} marginTop={5} >
 
                 <IconButton className="m-4 absolute top-0  z-999" onClick={() => (setClose())} size="large">
                   <FuseSvgIcon color="action">heroicons-outline:x</FuseSvgIcon>
 
                 </IconButton>
 
-                <Typography align={'center'} className="text-28 font-semibold leading-none">{t('Add a new client')}</Typography>
 
 
-                <Button onClick={() => saveclient()}
-                  className="m-4 absolute top-8 right-10 z-999 whitespace-nowrap"
-                  variant="contained"
-                  color="primary"
-                  sx={{ padding: '0px 50px' }}
 
-                >
-                  {t('Save')}
-                </Button>
               </Box>
 
 

@@ -16,6 +16,7 @@ import {
   InputLabel,
   FormControl,
   MenuItem,
+  CardHeader,
 } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -58,6 +59,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import Address from '../Address'
 const gender = [
   {
@@ -183,17 +186,21 @@ function Newclient(props) {
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const [OpenAddressmodal, setOpenAddressmodal] = useState(false);
   const [Openmodal, setOpenModal] = useState(false);
-  const [Firstname, setFirstname] = useState([]);
-  const [Lastname, setLastname] = useState();
-  const [Email, setEmail] = useState();
-  const [Mobno, setMobno] = useState();
-  const [Mobno1, setMobno1] = useState();
-  const [Mobcode, setMobcode] = useState();
-  const [Mobcode1, setMobcode1] = useState();
-  const [Info, setInfo] = useState();
-  const [Source, setSource] = useState();
-  const [Gender, setGender] = useState();
-  const [Dob, setDob] = useState();
+  const [Firstname, setFirstname] = useState('');
+  const [Lastname, setLastname] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Mobno, setMobno] = useState('');
+  const [Mobno1, setMobno1] = useState('');
+  const [Mobcode, setMobcode] = useState('');
+  const [Mobcode1, setMobcode1] = useState('');
+  const [Info, setInfo] = useState('');
+  const [Source, setSource] = useState('');
+  const [Gender, setGender] = useState('');
+  const [Dob, setDob] = useState('');
+  const [successopen, setsuccessopen] = useState(false);
+
+
+
   const theme = useTheme();
   const container = {
     show: {
@@ -235,9 +242,11 @@ function Newclient(props) {
     console.log(Mobcode);
     console.log(Gender);
     console.log(Dob);
-
+    const companyid = localStorage.getItem('login_cid1');
     fetch(
-      'https://www.laabamone.com/appoint_api.php?eventtype=clientadd&firstname=' +
+      'https://www.laabamone.com/appoint_api.php?eventtype=clientadd&companyid='
+      + companyid +
+      '&firstname=' +
       Firstname +
       '&lastname=' +
       Lastname +
@@ -255,8 +264,10 @@ function Newclient(props) {
       .then((res) => res.json())
       .then(
         (result) => {
+          setsuccessopen(true);
           console.log('yes');
           console.log(result);
+
         },
         (error) => {
           console.log('no');
@@ -293,10 +304,30 @@ function Newclient(props) {
           <Button onClick={() => setOpenAddressmodal(false)}>Continue</Button>
         </DialogActions>
       </Dialog>
-
+      <Snackbar open={successopen} autoHideDuration={6000} onClose={() => setsuccessopen(false)}>
+        <Alert severity="success" sx={{ width: '100%' }}>
+          Client Added Successfully.
+        </Alert>
+      </Snackbar>
       <Root
 
         content={<div className="w-full" style={{ padding: '0px 90px', backgroundColor: '#fff' }}>
+
+          <Box sx={{ width: '100%', borderBottom: '1px solid #bfc3c7', paddingBottom: '20px' }} marginTop={5} marginBottom={5} >
+
+            <Typography align={'center'} className="text-28 font-semibold leading-none">{t('Add a new client')}</Typography>
+
+
+            <Button onClick={() => saveclient()}
+              className="m-4 absolute top-1 right-10 z-999 whitespace-nowrap"
+              variant="contained"
+              color="primary"
+            // sx={{ padding: '0px 50px' }}
+
+            >
+              {t('Save')}
+            </Button>
+          </Box>
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-6 gap-24 w-full min-w-0 p-24"
             variants={container}
@@ -306,11 +337,13 @@ function Newclient(props) {
 
             <motion.div variants={item} className="sm:col-span-3 lg:col-span-4">
               <motion.div variants={item} className="sm:col-span-4">
+
                 <Card component={motion.div} variants={item} className="w-full mb-32"
                   // sx={{ backgroundColor: (theme) => darken(theme.palette.background.default, 0.05) }}
 
                   sx={{ backgroundColor: '#fff', border: '1px solid #f1f1f1' }}
                 >
+
                   <div className="px-32 pt-24">
                     <Typography className="text-2xl font-semibold leading-tight">
                       {t('Basic info')}
@@ -320,6 +353,8 @@ function Newclient(props) {
                   <br />
                   <Divider />
                   <CardContent className="px-32 py-24">
+
+
 
                     <div className="mb-24">
                       <Grid container spacing={1}>
