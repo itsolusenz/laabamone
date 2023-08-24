@@ -164,7 +164,8 @@ function SignInPage() {
             </Typography>
               <div className="flex items-baseline mt-2 font-medium">
                 <Typography>Don't have an account?</Typography>
-                <Link className="ml-4" to="/sign-up">
+                {/*/sign-up */}
+                <Link target="_blank" className="ml-4" to="https://labbamonefront.vercel.app/signup">
                   Sign up
                 </Link>
               </div>
@@ -272,7 +273,7 @@ function SignInPage() {
             : <>
               <div className="flex items-baseline mt-2 font-medium">
                 <Typography>Don't have an account?</Typography>
-                <Link className="ml-4" to="/sign-up">
+                <Link target="_blank" className="ml-4" to="https://labbamonefront.vercel.app/signup">
                   Sign up
                 </Link>
               </div>
