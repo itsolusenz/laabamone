@@ -278,7 +278,7 @@ function SignInPage() {
                   Sign up
                 </Link>
               </div>
-              <Typography fullWidth sx={{ padding: '10px', fontWeight: 700, fontSize: '16px', textAlign: 'center' }}>Enter store Name</Typography>
+              <Typography fullWidth sx={{ padding: '10px', fontWeight: 700, fontSize: '16px', textAlign: 'center' }}>Enter Company Name</Typography>
               <Controller
                 name="store_name"
                 control={control}
