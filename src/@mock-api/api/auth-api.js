@@ -15,7 +15,6 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
   const data = JSON.parse(config.data);
   const { email, password, id, displayname } = data;
   // const user = _.cloneDeep(usersApi.find((_user) => _user.data.email === email));
-
   const error = [];
 
   /* if (!user) {
@@ -39,6 +38,7 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
       from: 'custom-db',
       password,
       role: 'admin',
+      displayname,
       data: {
         displayname,
         photoURL: 'assets/images/avatars/Abbott.jpg',

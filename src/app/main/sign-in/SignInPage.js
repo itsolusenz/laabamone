@@ -60,6 +60,7 @@ function SignInPage() {
 
 
   const Call = (password, email, id, displayname) => {
+
     jwtService
       .signInWithEmailAndPassword(email, password, id, displayname)
       .then((user) => {
@@ -130,7 +131,7 @@ function SignInPage() {
 
 
 
-
+    //alert();
 
     if (Storename1 != '' && Storename1 != null && Storename1 != undefined) {
 
@@ -272,7 +273,13 @@ function SignInPage() {
                   </Button>
                 </div>
               </form></>
-            : <>
+            :
+            <form
+              name="loginForm"
+              noValidate
+              className="flex flex-col justify-center w-full mt-32"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div className="flex items-baseline mt-2 font-medium">
                 <Typography>Don't have an account?&nbsp;&nbsp;</Typography>
 
@@ -307,12 +314,13 @@ function SignInPage() {
                 aria-label="Next"
                 onClick={Setname}
                 //  disabled={_.isEmpty(dirtyFields) || !isValid}
-                type="submit"
+                type="button"
                 size="large"
               >
                 Next
               </Button>
-            </>
+            </form>
+
 
 
           }
