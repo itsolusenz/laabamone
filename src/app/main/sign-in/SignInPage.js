@@ -21,6 +21,8 @@ import { useParams } from 'react-router';
 import React, { useEffect, useState, useRef } from 'react';
 import { ReactSession } from 'react-client-session';
 import TimelineTab from '../apps/profile/tabs/TimelineTab';
+import { InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 /**
  * Form Validation Schema
  */
@@ -53,11 +55,29 @@ function SignInPage() {
   const [Storename1, setStorename1] = useState();
   const [err, seterr] = useState();
   const [Errorval, setErrorval] = useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
   useEffect(() => {
     setValue('email', 'admin@fusetheme.com', { shouldDirty: true, shouldValidate: true });
     setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
+    const listener = event => {
+      setStorename1(event.target.value)
+      //  alert(event.target.store_name.value);
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        // console.log("Enter key was pressed. Run your function.");
+        event.preventDefault();
+        Setname(event.target.value);
+        // callMyFunction();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+
+
   }, [setValue]);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
 
   const Call = (password, email, id, displayname) => {
@@ -128,12 +148,12 @@ function SignInPage() {
 
 
   }
-  const Setname = async () => {
+  const Setname = async (a) => {
+
+    let Storename1 = a;
 
 
-
-
-    //alert();
+    alert(Storename1);
 
     if (Storename1 != '' && Storename1 != null && Storename1 != undefined) {
 
@@ -211,7 +231,19 @@ function SignInPage() {
                       {...field}
                       className="mb-24"
                       label="Password"
-                      type="password"
+                      type={showPassword ? 'text' : 'password'}
+                      InputProps={{
+                        endAdornment: <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            //onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }}
                       error={!!errors.password}
                       helperText={errors?.password?.message}
                       variant="outlined"
@@ -297,7 +329,7 @@ function SignInPage() {
                 control={control}
                 render={({ field }) => (
                   <TextField
-
+                    name="store_name"
                     className="mb-24"
                     // label="Store Name"
                     autoFocus

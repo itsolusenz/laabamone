@@ -50,7 +50,7 @@ export const updateUserShortcuts = createAsyncThunk(
 
 export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState();
-
+  localStorage.setItem("login_cid1", "");
   if (!user.role || user.role.length === 0) {
     // is guest
     return null;

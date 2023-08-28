@@ -36,7 +36,7 @@ function AuthProvider({ children }) {
 
     jwtService.on('onLogout', () => {
       pass('Signed out');
-
+      
       dispatch(logoutUser());
     });
 
