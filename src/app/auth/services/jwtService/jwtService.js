@@ -94,14 +94,18 @@ class JwtService extends FuseUtils.EventEmitter {
         })
         .then((response) => {
           if (response.data.user) {
+            //  alert('yes');
+            //  console.log('---------------', response.data.user);
             this.setSession(response.data.access_token);
             resolve(response.data.user);
           } else {
+            // alert('df');
             this.logout();
             reject(new Error('Failed to login with token.'));
           }
         })
         .catch((error) => {
+          // alert('nooo');
           this.logout();
           reject(new Error('Failed to login with token.'));
         });

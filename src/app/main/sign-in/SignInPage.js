@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -103,6 +104,7 @@ function SignInPage() {
             // setPage('2');
             // ReactSession.set("login_cid1", id);
             localStorage.setItem("login_cid1", id);
+            localStorage.setItem("login_displayname", displayname);
             localStorage.setItem('jwt_access_token', id);
             //window.location.href = "/calendar";
             Call(password, email, id, displayname)
@@ -165,14 +167,17 @@ function SignInPage() {
             <>  <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
               Sign in
             </Typography>
-              <div className="flex items-baseline mt-2 font-medium">
+              <div className="flex items-baseline mt-2 font-medium" style={{ paddingBottom: '10px' }}>
                 <Typography>Don't have an account?</Typography>
                 {/*/sign-up */}
                 <Link target="_blank" className="ml-4" to="https://labbamonefront.vercel.app/signup">
                   Sign up
                 </Link>
               </div>
-              <Typography sx={{ color: 'red' }}> {Errorval}</Typography>
+              {Errorval != '' && Errorval != null && Errorval != undefined &&
+                <Alert severity="error">{Errorval}</Alert>
+              }
+              {/*}  <Typography sx={{ color: 'red' }}> {Errorval}</Typography>*/}
               <form
                 name="loginForm"
                 noValidate

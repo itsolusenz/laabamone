@@ -6,9 +6,8 @@ import Utf8 from 'crypto-js/enc-utf8';
 import jwtDecode from 'jwt-decode';
 import mock from '../mock';
 import mockApi from '../mock-api.json';
-
 let usersApi = mockApi.components.examples.auth_users.value;
-
+//let usersApi = '';
 /* eslint-disable camelcase */
 
 mock.onGet('/api/auth/sign-in').reply(async (config) => {
@@ -34,19 +33,39 @@ mock.onGet('/api/auth/sign-in').reply(async (config) => {
   if (error.length === 0) {
     //delete password;
     const newUser = {
-      uuid: id,
-      from: 'custom-db',
-      password,
-      role: 'admin',
-      displayname,
-      data: {
-        displayname,
-        photoURL: 'assets/images/avatars/Abbott.jpg',
-        email,
-        settings: {},
-        shortcuts: [],
-      },
+      "uuid": id,
+      "from": "custom-db",
+      "password": password,
+      "role": "admin",
+      "data": {
+        "displayName": displayname,
+        "photoURL": "assets/images/avatars/brian-hughes.jpg",
+        "email": email,
+        "settings": {
+          "layout": {},
+          "theme": {}
+        },
+        "shortcuts": [
+          "apps.calendar",
+          "apps.mailbox",
+          "apps.contacts"
+        ]
+      }
     };
+    /* const newUser = {
+       uuid: id,
+       from: 'custom-db',
+       password,
+       role: 'admin',
+       displayName:displayname,
+       data: {
+         displayName:displayname,
+         photoURL: 'assets/images/avatars/Abbott.jpg',
+         email,
+         settings: {},
+         shortcuts: [],
+       },
+     };*/
     usersApi = [...usersApi, newUser];
 
     const user = _.cloneDeep(newUser);
@@ -67,21 +86,76 @@ mock.onGet('/api/auth/access-token').reply((config) => {
   const data = JSON.parse(config.data);
   const { access_token } = data;
 
+
+
   if (verifyJWTToken(access_token)) {
     const { id } = jwtDecode(access_token);
 
-    const user = _.cloneDeep(usersApi.find((_user) => _user.uuid === id));
+    let loginid = localStorage.getItem("login_cid1");
+    // const user = _.cloneDeep(usersApi.find((_user) => _user.uuid === id));
+    // delete user.password;
+    if (id == loginid) {
+      let loginname = localStorage.getItem("login_displayname");
+      const user = {
+        "uuid": loginid,
+        "from": "custom-db",
+        "password": "Admin123$%^",
+        "role": "admin",
+        "data": {
+          "displayName": loginname,
+          "photoURL": "assets/images/avatars/brian-hughes.jpg",
+          "email": "itsolusenz1@gmail.com",
+          "settings": {
+            "layout": {},
+            "theme": {}
+          },
+          "shortcuts": [
+            "apps.calendar",
+            "apps.mailbox",
+            "apps.contacts"
+          ]
+        }
+      };
+      const updatedAccessToken = generateJWTToken({ id: loginid });
 
-    delete user.password;
+      const response = {
+        user,
+        access_token: updatedAccessToken,
+      };
 
-    const updatedAccessToken = generateJWTToken({ id: user.uuid });
+      return [200, response];
+    }
 
-    const response = {
-      user,
-      access_token: updatedAccessToken,
-    };
+    /*   const user = {
+              "uuid": loc,
+              "from": "custom-db",
+              "password": "Admin123$%^",
+              "role": "admin",
+              "data": {
+                "displayName": "Abbott Keitch",
+                "photoURL": "assets/images/avatars/brian-hughes.jpg",
+                "email": "itsolusenz1@gmail.com",
+                "settings": {
+                  "layout": {},
+                  "theme": {}
+                },
+                "shortcuts": [
+                  "apps.calendar",
+                  "apps.mailbox",
+                  "apps.contacts"
+                ]
+              };
+     
+     const updatedAccessToken = generateJWTToken({ id: loc });
 
-    return [200, response];
+              const response = {
+                user,
+                access_token: updatedAccessToken,
+              };
+
+              return [200, response];
+     */
+
   }
   const error = 'Invalid access token detected';
   return [401, { error }];
